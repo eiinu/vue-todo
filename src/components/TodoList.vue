@@ -1,34 +1,66 @@
 <template>
-  <div>
-    <h1>这里是 List 名称</h1>
-    <div class="input-add">
-      <input type="text" name="todo" />
-      <button>
-        <i class="plus"></i>
-      </button>
+  <div class="todoList">
+    <PageHeader msg="今日" />
+    <div class="input">
+      <el-input v-model="addInput" placeholder="输入内容添加项目"></el-input>
     </div>
-    <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="用户管理" name="first">用户管理</el-tab-pane>
-      <el-tab-pane label="配置管理" name="second">配置管理</el-tab-pane>
-      <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
-    </el-tabs>
+    <div>
+      <span class="category">任务进度</span>
+      <el-progress
+        :text-inside="true"
+        :stroke-width="24"
+        :percentage="60"
+        status="success"
+      ></el-progress>
+    </div>
+    <div>
+      <span class="category">未完成</span>
+      <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+      </ul>
+      <span class="category">已完成</span>
+    </div>
   </div>
 </template>
 
 <script>
+import PageHeader from "@/components/page/PageHeader.vue";
 export default {
   data() {
     return {
-      activeName: "second",
+      activeName: "first",
+      addInput: ""
     };
+  },
+  components: {
+    PageHeader,
   },
   methods: {
     handleClick(tab, event) {
       console.log(tab, event);
-    },
+    }
   },
 };
 </script>
 
 <style>
+.todoList {
+  padding: 10px;
+}
+
+.todoList .input {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.category {
+  display: flex;
+  text-align: left;
+  font-size: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 </style>
