@@ -97,7 +97,7 @@ export default {
 }
 
 #bottom-nav-layout {
-  width: 100vh;
+  width: 100vw;
   height: 80px;
   position: fixed;
   padding: 0;
