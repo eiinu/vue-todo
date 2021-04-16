@@ -1,37 +1,44 @@
 <template>
   <div class="pageHeader">
-      <img src="@/assets/icon/menu.svg" alt="" @click="clickMenu()">
-      <span>{{ msg }}</span>
+    <img
+      src="@/assets/icon/menu.svg"
+      v-show="leftButton == '1'"
+      alt=""
+      @click="clickMenu()"
+    />
+    <span class="headerTitle">{{ msg }}</span>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'PageHeader',
+  name: "PageHeader",
   props: {
-    msg: String
+    msg: String,
+    leftButton: String,
   },
   methods: {
-    clickMenu:function() {
-      console.log('clcik menu')
-    }
-  }
-}
+    clickMenu: function () {
+      console.log("clcik menu");
+    },
+  },
+};
 </script>
 
 <style>
 .pageHeader {
-  height: 50px;
+  height: 40px;
   display: flex;
+  padding: 10px;
 }
 
 .pageHeader img {
+  margin-right: 10px;
+  vertical-align: middle;
   height: 40px;
-  margin-top: auto;
-  margin-bottom: auto;
 }
 .pageHeader img:hover {
-  background: #F5F5F5;
+  background: #f5f5f5;
   cursor: pointer;
 }
 
@@ -39,12 +46,11 @@ export default {
 .web-mid .pageHeader img {
   display: none;
 }
-.pageHeader span {
+.headerTitle {
   color: black;
   text-align: left;
-  font-size: 40px;
+  font-size: 30px;
   overflow: hidden;
-  margin: auto 10 auto 10;
+  line-height: 40px;
 }
-
 </style>

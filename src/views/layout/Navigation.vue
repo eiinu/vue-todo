@@ -1,16 +1,15 @@
 <template>
   <div id="navigation">
     <div>
-      <img
-        src="http://pp.myapp.com/ma_icon/0/icon_11214121_1612157069/256"
-        alt=""
-        class="nav-logo"
-      />
+      <img src="@/assets/logo.png" alt="" class="nav-logo" />
     </div>
     <ul>
       <li>
         <router-link to="/" @click="routerLink('home')">
-          <div class="nav-item" :class="navChoosen=='home'?'nav-item-current':'nav-item'">
+          <div
+            class="nav-item"
+            :class="navChoosen == 'home' ? 'nav-item-current' : 'nav-item'"
+          >
             <img src="@/assets/icon/check-item.svg" alt="" class="nav-icon" />
             <p>清单</p>
           </div>
@@ -18,7 +17,10 @@
       </li>
       <li>
         <router-link to="/habit" @click="routerLink('habit')">
-          <div class="nav-item" :class="navChoosen=='habit'?'nav-item-current':'nav-item'">
+          <div
+            class="nav-item"
+            :class="navChoosen == 'habit' ? 'nav-item-current' : 'nav-item'"
+          >
             <img src="@/assets/icon/calendar.svg" alt="" class="nav-icon" />
             <p>习惯</p>
           </div>
@@ -26,7 +28,10 @@
       </li>
       <li>
         <router-link to="/summary" @click="routerLink('summary')">
-          <div class="nav-item" :class="navChoosen=='summary'?'nav-item-current':'nav-item'">
+          <div
+            class="nav-item"
+            :class="navChoosen == 'summary' ? 'nav-item-current' : 'nav-item'"
+          >
             <img src="@/assets/icon/chart-pie.svg" alt="" class="nav-icon" />
             <p>数据</p>
           </div>
@@ -34,7 +39,10 @@
       </li>
       <li>
         <router-link to="/mine" @click="routerLink('mine')">
-          <div class="nav-item" :class="navChoosen=='mine'?'nav-item-current':'nav-item'">
+          <div
+            class="nav-item"
+            :class="navChoosen == 'mine' ? 'nav-item-current' : 'nav-item'"
+          >
             <img src="@/assets/icon/user.svg" alt="" class="nav-icon" />
             <p>我的</p>
           </div>
@@ -52,10 +60,10 @@ export default {
     };
   },
   methods: {
-    routerLink:function(msg){
-        this.navChoosen = msg;
-    }
-  }
+    routerLink: function (msg) {
+      this.navChoosen = msg;
+    },
+  },
 };
 </script>
 
@@ -67,25 +75,24 @@ export default {
   padding: 10px;
   width: 60px;
   height: 60px;
-  text-align: center
+  text-align: center;
 }
 
 .nav-item-current {
-    background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
 
 .nav-item:hover {
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
-
 
 a,
 a:visited,
 a:hover,
 a:link,
-a:active  {
-    color: #000;
-    text-decoration: none;
+a:active {
+  color: #000;
+  text-decoration: none;
 }
 
 .web-big #navigation .nav-logo,
@@ -111,21 +118,20 @@ a:active  {
 .web-small .nav-logo {
   display: none;
 }
-.web-small #navigation ul{
-    height: 80px;
-    width: 100%;
-    display: flex;
+.web-small #navigation ul {
+  height: 80px;
+  width: 100%;
+  display: flex;
 }
 .web-small #navigation li {
-    display: flex;
-    flex: 1;
-    float: left;
-    list-style: none;
+  display: flex;
+  flex: 1;
+  float: left;
+  list-style: none;
 }
 .web-small #navigation .nav-item {
-    width: 25vw;
-    height: 60px;
-    padding: 10px 0 10px 0;
+  width: 25vw;
+  height: 60px;
+  padding: 10px 0 10px 0;
 }
-
 </style>

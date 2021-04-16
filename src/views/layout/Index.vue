@@ -1,11 +1,11 @@
 <template>
   <div v-bind:class="screenMode">
-    <section class="nav-layout">
+    <div class="nav-layout">
       <Navigation />
-    </section>
-    <section id="main">
+    </div>
+    <div id="main">
       <router-view />
-    </section>
+    </div>
   </div>
 </template>
 
@@ -48,25 +48,25 @@ export default {
 
 <style>
 #main {
-  height: 100vh;
+  height: 100%;
   right: 0;
   text-align: center;
-  height: 100%;
   position: fixed;
 }
 .web-big #main,
 .web-mid #main {
-    left:80px;
+  left: 80px;
 }
 
 .web-small #main {
-    left: 0;
+  left: 0;
+  width: 100%;
 }
 
 .web-big .nav-layout,
 .web-mid .nav-layout {
   width: 80px;
-  height: 100vh;
+  height: 100%;
   position: fixed;
   padding: 0;
   left: 0;
