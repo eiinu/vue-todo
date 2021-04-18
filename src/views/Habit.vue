@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import PageHeader from "@/components/page/PageHeader.vue";
+import PageHeader from "@/components/PageHeader.vue";
 
 export default {
   name: "Habit",

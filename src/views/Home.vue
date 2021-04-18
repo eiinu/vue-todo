@@ -9,7 +9,9 @@
       :before-close="handleClose"
       destroy-on-close
     >
-      <TodoList class="drawer-body" />
+      <div class="el-drawer">
+        <TodoList class="drawer-body" />
+      </div>
     </el-drawer>
     <div class="left-todo">
       <TodoList />
@@ -21,14 +23,15 @@
         class="pageHeader"
         @menu-drawer="drawer = true"
       />
-      <TodoList />
+      <TodoList class="right-todo-list" />
     </div>
   </div>
 </template>
 
 <script>
 import TodoList from "@/components/TodoList.vue";
-import PageHeader from "@/components/page/PageHeader.vue";
+import PageHeader from "@/components/PageHeader.vue";
+// import Category from "@/components/Category.vue";
 
 export default {
   name: "Home",
@@ -43,6 +46,7 @@ export default {
   components: {
     TodoList,
     PageHeader,
+    // Category,
   },
   methods: {
     handleClose() {
@@ -62,9 +66,10 @@ export default {
 
 .web-big .home .left-todo,
 .web-mid .home .left-todo {
-  width: 250px;
+  width: 30%;
   height: 100%;
   border-right: 1px solid #f0f0f0;
+  overflow: auto;
 }
 .web-small .home .left-todo {
   display: none;
@@ -72,21 +77,34 @@ export default {
 
 .web-big .home .right-todo,
 .web-mid .home .right-todo {
-  width: 100%;
+  width: 70%;
   height: 100%;
-  overflow: auto;
+  display: flex;
 }
 .web-small .home .right-todo {
   width: 100%;
   height: 100%;
-  overflow: auto;
+  display: flex;
 }
 
 .pageHeader {
+  position: fixed;
+  width: 100%;
   box-shadow: 0 1px 5px 0 rgb(57 66 60 / 20%);
 }
-
+.right-todo-list {
+  margin-top: 62px;
+  width: 100%;
+}
+.el-drawer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
 .drawer-body {
   overflow: auto;
+}
+.drawer-body::-webkit-scrollbar {
+  width: 0;
 }
 </style>
