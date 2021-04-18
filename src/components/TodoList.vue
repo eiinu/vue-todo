@@ -59,9 +59,9 @@ export default {
     return {
       addInput: "",
       data: {
-        progress: 33,
-        sum: 9,
-        done: 3,
+        progress: 46,
+        sum: 13,
+        done: 6,
         list: [
           {
             name:
@@ -74,7 +74,7 @@ export default {
             name: "写作业",
             desc: "编译原理作业",
             ddlTime: 1618572859,
-            status: 0,
+            status: 1,
           },
           {
             name: "洗衣服",
@@ -86,7 +86,7 @@ export default {
             name: "做实验",
             desc: "编译原理实验",
             ddlTime: 1618572859,
-            status: 0,
+            status: 1,
           },
           {
             name: "写作业",
@@ -107,6 +107,24 @@ export default {
             status: 0,
           },
           {
+            name: "做实验",
+            desc: "编译原理实验",
+            ddlTime: 1618572859,
+            status: 0,
+          },
+          {
+            name: "做实验",
+            desc: "编译原理实验",
+            ddlTime: 1618572859,
+            status: 0,
+          },
+          {
+            name: "做实验",
+            desc: "编译原理实验",
+            ddlTime: 1618572859,
+            status: 0,
+          },
+          {
             name: "写作业",
             desc: "编译原理作业",
             ddlTime: 1618572859,
@@ -115,6 +133,12 @@ export default {
           {
             name: "洗衣服",
             desc: "",
+            ddlTime: 1618572859,
+            status: 1,
+          },
+          {
+            name: "这是最后一项任务",
+            desc: "编译原理作业",
             ddlTime: 1618572859,
             status: 1,
           },
@@ -140,8 +164,9 @@ export default {
 <style>
 .todoList {
   padding: 10px;
-  overflow: auto;
   display: block;
+  overflow: auto;
+  padding-bottom: 100px;
 }
 
 .todoList .input-add {

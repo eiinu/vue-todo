@@ -4,7 +4,7 @@
       src="@/assets/icon/menu.svg"
       v-show="leftButton == '1'"
       alt=""
-      @click="clickMenu()"
+      @click="$emit('menuDrawer')"
     />
     <span class="headerTitle">{{ msg }}</span>
   </div>
@@ -16,11 +16,6 @@ export default {
   props: {
     msg: String,
     leftButton: String,
-  },
-  methods: {
-    clickMenu: function () {
-      console.log("clcik menu");
-    },
   },
 };
 </script>
