@@ -1,19 +1,35 @@
 <template>
   <div :class="status == 0 ? 'item-undo' : 'item-done'">
     <img
+      class="icon-check"
       src="@/assets/icon/circle-undo.svg"
       alt=""
       @click="$emit('clickButton')"
       v-show="status == 0"
     />
     <img
+      class="icon-check"
       src="@/assets/icon/circle-done.svg"
       alt=""
       @click="$emit('clickButton')"
       v-show="status == 1"
     />
-    <span class="todo-name">{{ name }}</span>
-    <span class="todo-time">{{ stampToTime(ddlTime) }}</span>
+    <span class="todo-name">{{ title }}</span>
+    <img
+      class="icon-favorite"
+      src="@/assets/icon/favorite.svg"
+      @click="$emit('clickFavorite')"
+      alt=""
+      v-show="favorite == 0"
+    />
+    <img
+      class="icon-favorite"
+      src="@/assets/icon/favorite-black.svg"
+      @click="$emit('clickFavorite')"
+      alt=""
+      v-show="favorite == 1"
+    />
+    <span class="todo-time">{{ stampToTime(ctime) }}</span>
   </div>
 </template>
 
@@ -21,15 +37,16 @@
 export default {
   name: "TodoItem",
   props: {
-    name: String,
+    title: String,
     status: Number,
-    ddlTime: Number,
+    ctime: Number,
+    favorite: Number,
   },
   methods: {
-    stampToTime(ddlTime) {
-      let date = new Date(ddlTime * 1000);
+    stampToTime(ctime) {
+      let date = new Date(ctime);
       let m = date.getMonth() + 1;
-      let d = date.getDay();
+      let d = date.getDate();
       return m + "月" + d + "日";
     },
   },
@@ -38,10 +55,16 @@ export default {
 
 <style>
 .todo-item img {
-  vertical-align: middle;
-  text-align: left;
-  height: 20px;
+  /* vertical-align: middle; */
+  box-sizing: border-box;
+  padding: 5px;
+  height: 100%;
+}
+.todo-item .icon-check {
   float: left;
+}
+.todo-item .icon-favorite {
+  float: right;
 }
 
 .todo-name {
@@ -52,16 +75,15 @@ export default {
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 15px;
-  margin-right: 80px;
+  float: left;
 }
 
 .todo-time {
   vertical-align: middle;
   line-height: 30px;
   font-size: 15px;
-  position: absolute;
   width: 80px;
-  right: 0;
+  float: right;
 }
 .item-done .todo-name {
   text-decoration: line-through;

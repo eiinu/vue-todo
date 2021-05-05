@@ -5,52 +5,57 @@
       size="60%"
       :withHeader="false"
       :show-close="false"
-      :direction="direction"
+      direction="ltr"
       :before-close="handleClose"
       destroy-on-close
     >
       <div class="el-drawer">
-        <TodoList class="drawer-body" />
+        <ProjectList class="drawer-body" @click-Project="onClickProject" />
       </div>
     </el-drawer>
     <div class="left-todo">
-      <TodoList />
+      <ProjectList @click-Project="onClickProject" />
     </div>
     <div class="right-todo">
       <PageHeader
-        msg="今日"
+        :msg="currentProjectName"
         leftButton="1"
         class="pageHeader"
         @menu-drawer="drawer = true"
       />
-      <TodoList class="right-todo-list" />
+      <TodoList class="right-todo-list" :projectId="currentProjectId" />
     </div>
   </div>
 </template>
 
 <script>
-import TodoList from "@/components/TodoList.vue";
+import TodoList from "@/components/home/TodoList.vue";
 import PageHeader from "@/components/PageHeader.vue";
-// import Category from "@/components/Category.vue";
+import ProjectList from "@/components/home/ProjectList.vue";
 
 export default {
   name: "Home",
   data() {
     return {
       drawer: false,
-      direction: "ltr",
-      booleanFalse: false,
+      currentProjectId: "all",
+      currentProjectName: "全部",
     };
   },
-  emits: ["menuDrawer"],
+  emits: ["menuDrawer", "clickPorject"],
   components: {
     TodoList,
     PageHeader,
-    // Category,
+    ProjectList,
   },
   methods: {
     handleClose() {
       this.drawer = false;
+    },
+    onClickProject(projectName, projectId) {
+      this.drawer = false;
+      this.currentProjectName = projectName;
+      this.currentProjectId = projectId;
     },
   },
 };
