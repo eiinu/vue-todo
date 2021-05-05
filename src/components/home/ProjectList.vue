@@ -46,7 +46,26 @@ export default {
     return {
       addInput: "",
       projectOrder: "time",
-      data: [],
+      data: [
+        {
+          uid: "",
+          pid: "",
+          title: "第一个清单",
+          ctime: "",
+        },
+        {
+          uid: "",
+          pid: "",
+          title: "第二个清单",
+          ctime: "",
+        },
+        {
+          uid: "",
+          pid: "",
+          title: "第三个清单",
+          ctime: "",
+        },
+      ],
     };
   },
   created() {

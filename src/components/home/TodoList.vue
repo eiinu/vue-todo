@@ -100,7 +100,32 @@ export default {
         progress: 0,
         sum: 1,
         done: 0,
-        list: [],
+        list: [
+          {
+            pid: "",
+            cid: "",
+            title: "第一个任务",
+            ctime: "1",
+            status: 1,
+            favorite: 1,
+          },
+          {
+            pid: "",
+            cid: "",
+            title: "第二个任务",
+            ctime: "1",
+            status: 0,
+            favorite: 1,
+          },
+          {
+            pid: "",
+            cid: "",
+            title: "第三个任务",
+            ctime: "1",
+            status: 0,
+            favorite: 0,
+          },
+        ],
       },
     };
   },
