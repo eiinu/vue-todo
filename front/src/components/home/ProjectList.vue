@@ -32,8 +32,31 @@
           :key="item"
           :projectName="item.title"
           @click="$emit('clickProject', item.title, item.pid)"
-          @contextmenu.prevent=""
+          @contextmenu.prevent.stop="this.changeCard(item, $event)"
         />
+      </div>
+    </div>
+    <div
+      class="change-card-bg"
+      v-if="changeCardShow"
+      @click="this.closeChangeCard($event)"
+      @contextmenu.prevent.stop="this.closeChangeCard($event)"
+    >
+      <div
+        ref="changeCardMsk2"
+        class="item-change-card"
+        :style="projectCard.style"
+        v-if="changeCardShow"
+      >
+        <ul>
+          <li class="card-item">
+            <div>标题</div>
+            <input type="text" :value="projectCard.title" />
+          </li>
+          <li class="card-item delete-card" @click="deleteProject()">
+            <span>删除</span>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -45,7 +68,19 @@ export default {
   data() {
     return {
       addInput: "",
+      changeCardShow: false,
       projectOrder: "time",
+      projectCard: {
+        pid: "",
+        title: "",
+        ctime: "",
+        style: {
+          width: "200px",
+          height: "100px",
+          left: "0px",
+          top: "0px",
+        },
+      },
       data: [
         {
           uid: "",
@@ -84,6 +119,52 @@ export default {
     ProjectItem,
   },
   methods: {
+    changeCard(item, event) {
+      const cWidth = document.body.clientWidth;
+      const cHeight = document.body.clientHeight;
+      const cardWidth = parseInt(this.projectCard.style.width);
+      const cardHeight = parseInt(this.projectCard.style.height);
+      if (event.clientX + cardWidth > cWidth) {
+        let left = event.clientX > cardWidth ? event.clientX - cardWidth : 0;
+        this.projectCard.style.left = left + "px";
+      } else {
+        this.projectCard.style.left = event.clientX + "px";
+      }
+      if (event.clientY + cardHeight > cHeight) {
+        let top = event.clientY > cardHeight ? event.clientY - cardHeight : 0;
+        this.projectCard.style.top = top + "px";
+      } else {
+        this.projectCard.style.top = event.clientY + "px";
+      }
+      this.projectCard.pid = item.pid;
+      this.projectCard.title = item.title;
+      this.projectCard.ctime = item.ctime;
+      if (!this.changeCardShow) this.changeCardShow = true;
+    },
+    closeChangeCard(event) {
+      if (!this.$refs.changeCardMsk2.contains(event.target)) {
+        this.changeCardShow = false;
+      }
+    },
+    deleteProject() {
+      let index = 0;
+      for (let i = 0; i < this.data.length; ++i) {
+        if (this.data[i].pid == this.projectCard.pid) {
+          index = i;
+          break;
+        }
+      }
+      this.$axios
+        .post("api/deleteproject", {
+          uid: "windmill",
+          pid: this.data[index].pid,
+        })
+        .then((res) => {
+          console.log(res.data.data);
+          this.data.splice(index, 1);
+          this.changeCardShow = false;
+        });
+    },
     addNewProject() {
       if (this.addInput != "") {
         this.$axios
@@ -107,5 +188,11 @@ export default {
 }
 .project-input {
   margin-bottom: 20px;
+}
+.project-containter {
+  padding-bottom: 80px;
+}
+.delete-card:hover {
+  cursor: pointer;
 }
 </style>

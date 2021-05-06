@@ -43,6 +43,15 @@ app.get('/api/getitem', (req, res, next) => {
     if (req.query.pid == 'all') {
         sql = `select * from ${req.query.uid}`
     }
+    else if (req.query.pid == 'today') {
+        const t = new Date(Date.now);
+        const year = t.getFullYear();
+        const month = t.getMonth();
+        const day = t.getDate();
+        let m1 = new Date(new Date().setHours(0, 0, 0, 0)).getTime();
+        let m2 = m1 + 86400000;
+        sql = `select * from ${req.query.uid} where ctime >= ${m1} and ctime <= ${m2}`;
+    }
     else if (req.query.pid == 'favorite') {
         sql = `select * from ${req.query.uid} where favorite = 1`
     }
@@ -70,7 +79,7 @@ app.post('/api/changeitem', (req, res, next) => {
     const cid = req.body.cid;
     const status = req.body.status;
     const favorite = req.body.favorite;
-    const title = req.body.favorite;
+    const title = req.body.title;
     const ctime = req.body.ctime;
     const sql = `update ${uid} set status = ${status},favorite = ${favorite},title = '${title}',ctime = ${ctime} where pid = '${pid}' and cid = '${cid}'`;
     connection.query(sql, (err) => {
@@ -143,7 +152,7 @@ app.post('/api/addproject', (req, res, next) => {
 app.post('/api/deleteproject', (req, res, next) => {
     const uid = req.body.uid;
     const pid = req.body.pid;
-    const sql = `delete from ptable where uid = '${uid} and pid = '${pid}'; delete from '${uid}' where pid = '${pid}'`;
+    const sql = `delete from ptable where uid = '${uid}' and pid = '${pid}'; delete from ${uid} where pid = '${pid}'`;
     connection.query(sql, (err) => {
         if (err) {
             return res.json({
@@ -154,7 +163,7 @@ app.post('/api/deleteproject', (req, res, next) => {
         }
         res.json({
             code: 200,
-            data: 'success'
+            data: 'delete project success'
         })
     })
 })
@@ -162,7 +171,7 @@ app.post('/api/deleteitem', (req, res, next) => {
     const uid = req.body.uid;
     const pid = req.body.pid;
     const cid = req.body.cid;
-    const sql = `delete from '${uid}' where pid = '${pid}' and cid = '${cid}'`;
+    const sql = `delete from ${uid} where pid = '${pid}' and cid = '${cid}'`;
     connection.query(sql, (err) => {
         if (err) {
             return res.json({
@@ -173,7 +182,7 @@ app.post('/api/deleteitem', (req, res, next) => {
         }
         res.json({
             code: 200,
-            data: 'success'
+            data: 'delete item success'
         })
     })
 })

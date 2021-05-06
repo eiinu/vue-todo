@@ -1,13 +1,10 @@
 <template>
-  
+  <div>测试</div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style>
-
 </style>

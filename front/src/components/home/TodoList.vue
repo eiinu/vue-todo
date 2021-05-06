@@ -1,6 +1,6 @@
 <template>
   <div class="todoList">
-    <div class="input-add">
+    <div class="input-add" v-if="projectId != 'favorite'">
       <el-input
         v-model="addInput"
         placeholder="输入内容添加任务"
@@ -22,7 +22,7 @@
       <div class="todo-list">
         <TodoItem
           class="todo-item"
-          v-for="(item, index) in data.list"
+          v-for="item in data.list"
           :key="item"
           v-show="item.status == 0"
           :title="item.title"
@@ -38,7 +38,7 @@
             item.favorite = item.favorite == 1 ? 0 : 1;
             changeItem(item);
           "
-          @contextmenu.prevent.stop="this.changeCard(item, index, $event)"
+          @contextmenu.prevent.stop="this.changeCard(item, $event)"
         />
       </div>
       <span class="category-done">已完成</span>
@@ -61,7 +61,7 @@
             item.favorite = item.favorite == 1 ? 0 : 1;
             changeItem(item);
           "
-          @contextmenu.prevent.stop="this.changeCard(item, index, $event)"
+          @contextmenu.prevent.stop="this.changeCard(item, $event)"
         />
       </div>
     </div>
@@ -85,7 +85,9 @@
             <div>标题</div>
             <input type="text" :value="changeCardData.title" />
           </li>
-          <li class="card-item">删除</li>
+          <li class="card-item delete-card" @click="deleteItem()">
+            <span>删除</span>
+          </li>
         </ul>
       </div>
     </div>
@@ -101,6 +103,7 @@ export default {
       changeCardShow: false,
       changeCardData: {
         itemIndex: 0,
+        cid: "",
         title: "",
         ctime: 0,
         style: {
@@ -151,7 +154,7 @@ export default {
   },
   emits: ["clickButton", "clickFavorite"],
   methods: {
-    changeCard(item, index, event) {
+    changeCard(item, event) {
       const cWidth = document.body.clientWidth;
       const cHeight = document.body.clientHeight;
       const cardWidth = parseInt(this.changeCardData.style.width);
@@ -169,7 +172,7 @@ export default {
       } else {
         this.changeCardData.style.top = event.clientY + "px";
       }
-      this.changeCardData.itemIndex = index;
+      this.changeCardData.cid = item.cid;
       this.changeCardData.title = item.title;
       this.changeCardData.ctime = item.ctime;
       if (!this.changeCardShow) this.changeCardShow = true;
@@ -178,6 +181,27 @@ export default {
       if (!this.$refs.changeCardMsk.contains(event.target)) {
         this.changeCardShow = false;
       }
+    },
+    deleteItem() {
+      let index = 0;
+      for (let i = 0; i < this.data.list.length; ++i) {
+        if (this.data.list[i].cid == this.changeCardData.cid) {
+          index = i;
+          break;
+        }
+      }
+      this.$axios
+        .post("api/deleteitem", {
+          uid: "windmill",
+          pid: this.data.list[index].pid,
+          cid: this.data.list[index].cid,
+        })
+        .then((res) => {
+          console.log(res.data.data);
+          this.data.list.splice(index, 1);
+          this.dataChange();
+          this.changeCardShow = false;
+        });
     },
     addNewItem() {
       if (this.addInput != "") {
@@ -321,5 +345,14 @@ export default {
   top: 0;
   z-index: 999;
   background-color: transparent;
+}
+.card-item {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  background-color: #fff;
+}
+.card-item:hover {
+  background-color: #f5f5f5;
 }
 </style>
