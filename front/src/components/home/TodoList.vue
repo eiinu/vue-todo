@@ -22,7 +22,7 @@
       <div class="todo-list">
         <TodoItem
           class="todo-item"
-          v-for="item in data.list"
+          v-for="(item, index) in data.list"
           :key="item"
           v-show="item.status == 0"
           :title="item.title"
@@ -38,7 +38,7 @@
             item.favorite = item.favorite == 1 ? 0 : 1;
             changeItem(item);
           "
-          @contextmenu.prevent.stop="this.changeCard(item, $event)"
+          @contextmenu.prevent.stop="this.changeCard(item, index, $event)"
         />
       </div>
       <span class="category-done">已完成</span>
@@ -61,21 +61,32 @@
             item.favorite = item.favorite == 1 ? 0 : 1;
             changeItem(item);
           "
-          @contextmenu.prevent.stop="this.changeCard(item, $event)"
+          @contextmenu.prevent.stop="this.changeCard(item, index, $event)"
         />
       </div>
     </div>
     <div
       class="change-card-bg"
       v-if="changeCardShow"
-      @click="changeCardShow = false"
+      @click="this.closeChangeCard($event)"
+      @contextmenu.prevent.stop="this.closeChangeCard($event)"
     >
       <div
+        ref="changeCardMsk"
         class="item-change-card"
         :style="changeCardData.style"
         v-if="changeCardShow"
       >
-        {{ changeCardData.title }}
+        <ul>
+          <li class="card-item">
+            <span>日期</span>
+          </li>
+          <li class="card-item">
+            <div>标题</div>
+            <input type="text" :value="changeCardData.title" />
+          </li>
+          <li class="card-item">删除</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -89,23 +100,26 @@ export default {
       addInput: "",
       changeCardShow: false,
       changeCardData: {
+        itemIndex: 0,
         title: "",
         ctime: 0,
         style: {
+          width: "200px",
+          height: "200px",
           left: "0px",
           top: "0px",
         },
       },
       data: {
-        progress: 0,
-        sum: 1,
-        done: 0,
+        progress: 33,
+        sum: 3,
+        done: 1,
         list: [
           {
             pid: "",
             cid: "",
             title: "第一个任务",
-            ctime: "1",
+            ctime: 1,
             status: 1,
             favorite: 1,
           },
@@ -113,7 +127,7 @@ export default {
             pid: "",
             cid: "",
             title: "第二个任务",
-            ctime: "1",
+            ctime: 1,
             status: 0,
             favorite: 1,
           },
@@ -121,7 +135,7 @@ export default {
             pid: "",
             cid: "",
             title: "第三个任务",
-            ctime: "1",
+            ctime: 1,
             status: 0,
             favorite: 0,
           },
@@ -137,11 +151,33 @@ export default {
   },
   emits: ["clickButton", "clickFavorite"],
   methods: {
-    changeCard(item, event) {
-      this.changeCardData.style.left = event.clientX + "px";
-      this.changeCardData.style.top = event.clientY + "px";
+    changeCard(item, index, event) {
+      const cWidth = document.body.clientWidth;
+      const cHeight = document.body.clientHeight;
+      const cardWidth = parseInt(this.changeCardData.style.width);
+      const cardHeight = parseInt(this.changeCardData.style.height);
+      if (event.clientX + cardWidth > cWidth) {
+        let left = event.clientX > cardWidth ? event.clientX - cardWidth : 0;
+        this.changeCardData.style.left = left + "px";
+      } else {
+        this.changeCardData.style.left = event.clientX + "px";
+      }
+
+      if (event.clientY + cardHeight > cHeight) {
+        let top = event.clientY > cardHeight ? event.clientY - cardHeight : 0;
+        this.changeCardData.style.top = top + "px";
+      } else {
+        this.changeCardData.style.top = event.clientY + "px";
+      }
+      this.changeCardData.itemIndex = index;
       this.changeCardData.title = item.title;
+      this.changeCardData.ctime = item.ctime;
       if (!this.changeCardShow) this.changeCardShow = true;
+    },
+    closeChangeCard(event) {
+      if (!this.$refs.changeCardMsk.contains(event.target)) {
+        this.changeCardShow = false;
+      }
     },
     addNewItem() {
       if (this.addInput != "") {
@@ -167,6 +203,8 @@ export default {
           cid: item.cid,
           status: item.status,
           favorite: item.favorite,
+          title: item.title,
+          ctime: item.ctime,
         })
         .then((res) => {
           console.log(res.data.data);
@@ -270,8 +308,6 @@ export default {
 .item-change-card {
   position: fixed;
   z-index: 99999;
-  width: 200px;
-  height: 400px;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 2px 11px 0 rgb(0 0 0 / 16%);
@@ -283,7 +319,7 @@ export default {
   height: 100vh;
   left: 0;
   top: 0;
-  z-index: 9999;
+  z-index: 999;
   background-color: transparent;
 }
 </style>

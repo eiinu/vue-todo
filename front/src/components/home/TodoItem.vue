@@ -14,6 +14,7 @@
       @click="$emit('clickButton')"
       v-show="status == 1"
     />
+    <!-- <input class="todo-name" type="text" :value="title" /> -->
     <span class="todo-name">{{ title }}</span>
     <img
       class="icon-favorite"
