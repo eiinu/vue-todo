@@ -16,20 +16,16 @@
     />
     <!-- <input class="todo-name" type="text" :value="title" /> -->
     <span class="todo-name">{{ title }}</span>
-    <img
-      class="icon-favorite"
-      src="@/assets/icon/favorite.svg"
+    <i
+      class="el-icon-star-off icon-favorite icon-favorite0"
       @click="$emit('clickFavorite')"
-      alt=""
-      v-show="favorite == 0"
-    />
-    <img
-      class="icon-favorite"
-      src="@/assets/icon/favorite-black.svg"
+      v-if="favorite == 0"
+    ></i>
+    <i
+      class="el-icon-star-on icon-favorite icon-favorite1"
       @click="$emit('clickFavorite')"
-      alt=""
-      v-show="favorite == 1"
-    />
+      v-if="favorite == 1"
+    ></i>
     <span class="todo-time">{{ stampToTime(ctime) }}</span>
   </div>
 </template>
@@ -48,13 +44,16 @@ export default {
       let date = new Date(ctime);
       let m = date.getMonth() + 1;
       let d = date.getDate();
-      return m + "月" + d + "日";
+      if (d < 10) {
+        d = " " + d;
+      }
+      return m + "月 " + d + "日";
     },
   },
 };
 </script>
 
-<style>
+<style lang="less">
 .todo-item img {
   /* vertical-align: middle; */
   box-sizing: border-box;
@@ -66,6 +65,14 @@ export default {
 }
 .todo-item .icon-favorite {
   float: right;
+  text-align: center;
+  &.icon-favorite0 {
+    font-size: 24px;
+    padding: 3px;
+  }
+  &.icon-favorite1 {
+    font-size: 30px;
+  }
 }
 
 .todo-name {

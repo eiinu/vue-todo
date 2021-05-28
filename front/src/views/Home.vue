@@ -19,8 +19,8 @@
     <div class="right-todo">
       <PageHeader
         :msg="currentProjectName"
-        leftButton="1"
         class="pageHeader"
+        showMenu="1"
         @menu-drawer="drawer = true"
       />
       <TodoList class="right-todo-list" :projectId="currentProjectId" />
@@ -61,50 +61,43 @@ export default {
 };
 </script>
 
-<style>
-.web-big .home,
-.web-mid .home,
-.web-small .home {
+<style lang="less">
+.home {
   display: flex;
   height: 100%;
-}
-
-.web-big .home .left-todo,
-.web-mid .home .left-todo {
-  width: 30%;
-  height: 100%;
-  border-right: 1px solid #f0f0f0;
-  overflow: auto;
-}
-.web-small .home .left-todo {
-  display: none;
-}
-
-.web-big .home .right-todo,
-.web-mid .home .right-todo {
-  width: 70%;
-  height: 100%;
-  display: flex;
-}
-.web-small .home .right-todo {
-  width: 100%;
-  height: 100%;
-  display: flex;
-}
-
-.pageHeader {
-  position: fixed;
-  width: 100%;
-  box-shadow: 0 1px 5px 0 rgb(57 66 60 / 20%);
-}
-.right-todo-list {
-  margin-top: 62px;
-  width: 100%;
+  .left-todo {
+    flex: 1;
+    border-radius: 4px;
+    border-right: 1px solid var(--border-color);
+    overflow: auto;
+    margin-right: 10px;
+    background-color: var(--card-bg-color);
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+  }
+  .right-todo {
+    flex: 3;
+    border-radius: 4px;
+    .right-todo-list {
+      width: 100%;
+      height: calc(100% - 70px);
+      border-radius: 4px;
+      overflow: auto;
+      background-color: var(--card-bg-color);
+      &::-webkit-scrollbar {
+        width: 0;
+      }
+    }
+  }
 }
 .el-drawer {
   width: 100%;
   height: 100%;
   display: flex;
+  .el-drawer {
+    background-color: var(--card-bg-color);
+  }
 }
 .drawer-body {
   overflow: auto;

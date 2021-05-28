@@ -1,6 +1,7 @@
 <template>
-  <div class="summary">
-    <PageHeader msg="我的" />
+  <div class="mine">
+    <PageHeader msg="我的" class="pageHeader" />
+    <TodoList class="right-todo-list" :projectId="currentProjectId" />
   </div>
 </template>
 
@@ -14,3 +15,10 @@ export default {
   },
 };
 </script>
+
+<style lang="less">
+.mine {
+  width: 100%;
+  height: 100%;
+}
+</style>

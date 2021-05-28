@@ -1,43 +1,28 @@
 <template>
   <div class="habit">
-    <PageHeader msg="习惯打卡" />
+    <div class="habit-top">
+      <PageHeader msg="习惯打卡" class="pageHeader" />
+      <div class="habit-nav">
+        <p>进行中</p>
+        <p>已归档</p>
+      </div>
+    </div>
     <div class="habit-page">
-      <div class="habit-header">
-        <span class="category">今日进度 </span>
-        <el-progress
-          :text-inside="true"
-          :stroke-width="24"
-          :percentage="data.progress"
-          status="success"
-          class="progressbar"
-        ></el-progress>
-      </div>
-      <div class="habit-cards">
-        <ul>
-          <li class="habit-card">1</li>
-          <li class="habit-card">2</li>
-          <li class="habit-card">3</li>
-          <li class="habit-card">4</li>
-          <li class="habit-card">5</li>
-          <li class="habit-card">6</li>
-          <li class="habit-card">7</li>
-          <li class="habit-card">8</li>
-          <li class="habit-card">1</li>
-          <li class="habit-card">2</li>
-          <li class="habit-card">3</li>
-          <li class="habit-card">4</li>
-          <li class="habit-card">5</li>
-          <li class="habit-card">6</li>
-          <li class="habit-card">7</li>
-          <li class="habit-card">8</li>
-        </ul>
-      </div>
+      <i class="el-icon-circle-plus-outline add-habit-button"></i>
+      <HabitCard
+        class="habit-card"
+        v-for="item in cards"
+        :key="item"
+        :icon="item.icon"
+        :title="item.title"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import PageHeader from "@/components/PageHeader.vue";
+import HabitCard from "@/components/habit/HabitCard.vue";
 
 export default {
   name: "Habit",
@@ -45,59 +30,170 @@ export default {
     return {
       data: {
         progress: 55,
+        activeTabName: "first",
       },
+      cards1: [],
+      cards2: [],
+      cards: [
+        {
+          title: "跑步",
+          icon: "el-icon-bicycle",
+          today: false,
+          status: true,
+        },
+        {
+          title: "背单词",
+          icon: "el-icon-bicycle",
+          today: false,
+          status: false,
+        },
+        {
+          title: "早起",
+          icon: "el-icon-bicycle",
+          today: false,
+          status: false,
+        },
+        {
+          title: "每日总结",
+          icon: "el-icon-bicycle",
+          today: false,
+          status: true,
+        },
+        {
+          title: "喝水",
+          icon: "el-icon-bicycle",
+          today: false,
+          status: true,
+        },
+        {
+          title: "跑步",
+          icon: "el-icon-bicycle",
+          today: false,
+          status: true,
+        },
+        {
+          title: "背单词",
+          icon: "el-icon-bicycle",
+          today: false,
+          status: false,
+        },
+        {
+          title: "早起",
+          icon: "el-icon-bicycle",
+          today: false,
+          status: false,
+        },
+        {
+          title: "每日总结",
+          icon: "el-icon-bicycle",
+          today: false,
+          status: true,
+        },
+        {
+          title: "喝水",
+          icon: "el-icon-bicycle",
+          today: false,
+          status: true,
+        },
+        {
+          title: "跑步",
+          icon: "el-icon-bicycle",
+          today: false,
+          status: true,
+        },
+        {
+          title: "背单词",
+          icon: "el-icon-bicycle",
+          today: false,
+          status: false,
+        },
+        {
+          title: "早起",
+          icon: "el-icon-bicycle",
+          today: false,
+          status: false,
+        },
+        {
+          title: "每日总结",
+          icon: "el-icon-bicycle",
+          today: false,
+          status: true,
+        },
+        {
+          title: "喝水",
+          icon: "el-icon-bicycle",
+          today: false,
+          status: true,
+        },
+      ],
     };
   },
   components: {
     PageHeader,
+    HabitCard,
   },
 };
 </script>
 
-<style>
-/* * {
-  outline: 1px solid #ff0000;
-} */
-.habit-page {
-  box-sizing: border-box;
-  position: fixed;
-  top: 60px;
-  height: calc(100% - 60px);
-  padding: 10px;
-  overflow: auto;
-}
-.habit-page:before,
-.habit-page:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-.web-big .habit-page,
-.web-mid .habit-page {
-  width: calc(100% - 80px);
-}
-.web-small .habit-page {
-  height: calc(100% - 140px);
+<style lang="less">
+.habit {
   width: 100%;
-}
-
-.habit-header {
-  margin-bottom: 10px;
-}
-.habit-card {
-  float: left;
-  box-sizing: border-box;
-  margin: 5px;
-  height: 150px;
-  background-color: pink;
-  border-radius: 10px;
-}
-.web-big .habit-card,
-.web-mid .habit-card {
-  width: 150px;
-}
-
-.web-small .habit-card {
-  width: calc(100% / 3 - 10px);
+  height: 100%;
+  .habit-top {
+    width: 100%;
+    display: flex;
+    border-radius: 4px;
+    .habit-nav {
+      height: 60px;
+      width: 100px;
+      background-color: var(--card-bg-color);
+      border-radius: 4px;
+      p {
+        width: 100%;
+        text-align: center;
+        color: var(--font-color);
+        font-size: 15px;
+        line-height: 29px;
+      }
+      p:first-child {
+        border-bottom: 2px solid rgba(0, 0, 0, 0.08);
+      }
+      p:hover {
+        cursor: pointer;
+      }
+    }
+    .pageHeader {
+      flex: 1;
+    }
+  }
+  .habit-page {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+    align-content: flex-start;
+    overflow: auto;
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+    width: 100%;
+    height: calc(100% - 70px);
+    background-color: var(--card-bg-color);
+    border-radius: 4px;
+    .add-habit-button {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      font-size: 80px;
+      color: var(--theme-color);
+    }
+    .habit-card {
+      width: 120px;
+      height: 120px;
+      margin: 10px;
+      border-radius: 20px;
+      background-color: pink;
+    }
+  }
 }
 </style>

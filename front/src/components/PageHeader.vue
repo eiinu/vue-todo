@@ -1,11 +1,10 @@
 <template>
   <div class="pageHeader">
-    <img
-      src="@/assets/icon/menu.svg"
-      v-show="leftButton == '1'"
-      alt=""
+    <i
+      class="el-icon-notebook-2 menu-button"
+      v-if="showMenu == '1'"
       @click="$emit('menuDrawer')"
-    />
+    ></i>
     <span class="headerTitle">{{ msg }}</span>
   </div>
 </template>
@@ -15,34 +14,42 @@ export default {
   name: "PageHeader",
   props: {
     msg: String,
-    leftButton: String,
+    showMenu: String,
   },
 };
 </script>
 
-<style>
+<style lang="less">
 .pageHeader {
-  height: 40px;
+  height: 60px;
   display: flex;
   padding: 10px;
+  border-bottom: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--card-bg-color);
+  .menu-button {
+    vertical-align: middle;
+    height: 40px;
+    color: var(--font-color);
+    font-size: 30px;
+    padding: 5px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .data-theme {
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 30px;
+    color: var(--icon-color);
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }
 
-.pageHeader img {
-  margin-right: 10px;
-  vertical-align: middle;
-  height: 40px;
-}
-.pageHeader img:hover {
-  background: #f5f5f5;
-  cursor: pointer;
-}
-
-.web-big .pageHeader img,
-.web-mid .pageHeader img {
-  display: none;
-}
 .headerTitle {
-  color: black;
+  color: var(--font-color);
   text-align: left;
   font-size: 30px;
   overflow: hidden;

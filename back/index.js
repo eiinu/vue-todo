@@ -45,9 +45,6 @@ app.get('/api/getitem', (req, res, next) => {
     }
     else if (req.query.pid == 'today') {
         const t = new Date(Date.now);
-        const year = t.getFullYear();
-        const month = t.getMonth();
-        const day = t.getDate();
         let m1 = new Date(new Date().setHours(0, 0, 0, 0)).getTime();
         let m2 = m1 + 86400000;
         sql = `select * from ${req.query.uid} where ctime >= ${m1} and ctime <= ${m2}`;
@@ -183,6 +180,44 @@ app.post('/api/deleteitem', (req, res, next) => {
         res.json({
             code: 200,
             data: 'delete item success'
+        })
+    })
+})
+
+// habit
+app.get('/api/habit/getall', (req, res, next) => {
+    const sql = `select * from htable`;
+    connection.query(sql, (err, results) => {
+        if (err) {
+            return res.json({
+                code: 1,
+                message: 'error',
+                affextedRows: 0
+            })
+        }
+        res.json({
+            code: 200,
+            data: results
+        })
+    })
+})
+app.post('/api/habit/createhabit', (req, res, next) => {
+    const title = req.body.title;
+    const icon = req.body.icon;
+    const ctime = Date.now();
+    const hid = uuid.v1().replace(/-/g, '');
+    const sql = `insert into htable values('${hid}','${title}',1,${ctime},'${icon}')`;
+    connection.query(sql, (err) => {
+        if (err) {
+            return res.json({
+                code: 1,
+                message: 'error',
+                affextedRows: 0
+            })
+        }
+        res.json({
+            code: 200,
+            data: 'create habit success'
         })
     })
 })

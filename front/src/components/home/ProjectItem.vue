@@ -23,11 +23,11 @@ export default {
   text-indent: 1em;
   overflow: hidden;
   border-radius: 18px;
-  background-color: #ffffff;
+  background-color: var(--card-bg-color);
   margin: 10px 0;
 }
 .project-item:hover {
-  background-color: #f5f5f5;
+  background-color: var(--hover-bg-color);
   cursor: pointer;
 }
 </style>

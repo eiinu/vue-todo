@@ -78,13 +78,6 @@
         v-if="changeCardShow"
       >
         <ul>
-          <li class="card-item">
-            <span>日期</span>
-          </li>
-          <li class="card-item">
-            <div>标题</div>
-            <input type="text" :value="changeCardData.title" />
-          </li>
           <li class="card-item delete-card" @click="deleteItem()">
             <span>删除</span>
           </li>
@@ -107,8 +100,8 @@ export default {
         title: "",
         ctime: 0,
         style: {
-          width: "200px",
-          height: "200px",
+          width: "100px",
+          height: "44px",
           left: "0px",
           top: "0px",
         },
@@ -270,12 +263,15 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less">
 .todoList {
+  color: var(--font-color);
   padding: 10px;
   display: block;
   overflow: auto;
-  padding-bottom: 100px;
+  .el-input__inner {
+    background-color: var(--card-bg-color);
+  }
 }
 
 .todoList .input-add {
@@ -296,6 +292,12 @@ export default {
   margin-left: 10px;
   margin-right: 10px;
   border-radius: 4px;
+  .el-progress-bar__outer {
+    background-color: var(--progress-bg-color);
+  }
+  .el-progress-bar__inner.el-progress-bar__inner.el-progress-bar__inner {
+    background-color: var(--theme-color);
+  }
 }
 
 .filters {
@@ -320,21 +322,20 @@ export default {
 }
 
 .todo-item {
-  height: 30px;
-  background: white;
+  height: 50px;
+  background: var(--card-bg-color);
   border-radius: 5px;
   padding: 10px;
   align-items: center;
 }
 .todo-item:hover {
-  background-color: #f5f5f5;
+  background-color: var(--hover-bg-color);
 }
 .item-change-card {
   position: fixed;
   z-index: 99999;
   background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 2px 11px 0 rgb(0 0 0 / 16%);
+  border: 1px solid var(--border-color);
   border-radius: 4px;
 }
 .change-card-bg {
@@ -347,12 +348,11 @@ export default {
   background-color: transparent;
 }
 .card-item {
-  box-sizing: border-box;
   width: 100%;
   padding: 10px;
-  background-color: #fff;
+  background-color: var(--card-bg-color);
 }
 .card-item:hover {
-  background-color: #f5f5f5;
+  background-color: var(--hover-bg-color);
 }
 </style>

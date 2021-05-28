@@ -182,12 +182,15 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less">
 .project-page {
   margin: 10px;
 }
 .project-input {
   margin-bottom: 20px;
+  .el-input__inner {
+    background-color: var(--card-bg-color);
+  }
 }
 .project-containter {
   padding-bottom: 80px;

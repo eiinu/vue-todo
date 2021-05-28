@@ -1,6 +1,6 @@
 <template>
   <div class="summary">
-    <PageHeader msg="数据统计" />
+    <PageHeader msg="数据统计" class="pageHeader" />
   </div>
 </template>
 
@@ -14,3 +14,10 @@ export default {
   },
 };
 </script>
+
+<style lang="less">
+.summary {
+  width: 100%;
+  height: 100%;
+}
+</style>
