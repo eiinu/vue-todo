@@ -43,6 +43,9 @@ html[data-theme="dark"] {
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--page-bg-color);
 }
+body {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
 * {
   margin: 0;
   padding: 0;
@@ -125,7 +128,8 @@ a:active {
     .main-router {
       width: 100%;
     }
-    .habit {
+    .habit,
+    .summary {
       width: 570px;
     }
   }

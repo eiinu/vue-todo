@@ -81,26 +81,7 @@ export default {
           top: "0px",
         },
       },
-      data: [
-        {
-          uid: "",
-          pid: "",
-          title: "第一个清单",
-          ctime: "",
-        },
-        {
-          uid: "",
-          pid: "",
-          title: "第二个清单",
-          ctime: "",
-        },
-        {
-          uid: "",
-          pid: "",
-          title: "第三个清单",
-          ctime: "",
-        },
-      ],
+      data: [],
     };
   },
   created() {
@@ -110,9 +91,33 @@ export default {
           uid: "windmill",
         },
       })
-      .then((res) => {
-        this.data = res.data.data;
-      });
+      .then(
+        (res) => {
+          this.data = res.data.data;
+        },
+        () => {
+          this.data = [
+            {
+              uid: "",
+              pid: "",
+              title: "第一个清单",
+              ctime: "",
+            },
+            {
+              uid: "",
+              pid: "",
+              title: "第二个清单",
+              ctime: "",
+            },
+            {
+              uid: "",
+              pid: "",
+              title: "第三个清单",
+              ctime: "",
+            },
+          ];
+        }
+      );
   },
   name: "Project",
   components: {
@@ -173,7 +178,11 @@ export default {
             title: this.addInput,
           })
           .then((res) => {
-            this.data.push(res.data.data);
+            this.data.unshift(res.data.data);
+            this.$message({
+              type: "success",
+              message: "添加成功!",
+            });
           });
         this.addInput = "";
       }

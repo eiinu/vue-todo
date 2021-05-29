@@ -110,32 +110,7 @@ export default {
         progress: 33,
         sum: 3,
         done: 1,
-        list: [
-          {
-            pid: "",
-            cid: "",
-            title: "第一个任务",
-            ctime: 1,
-            status: 1,
-            favorite: 1,
-          },
-          {
-            pid: "",
-            cid: "",
-            title: "第二个任务",
-            ctime: 1,
-            status: 0,
-            favorite: 1,
-          },
-          {
-            pid: "",
-            cid: "",
-            title: "第三个任务",
-            ctime: 1,
-            status: 0,
-            favorite: 0,
-          },
-        ],
+        list: [],
       },
     };
   },
@@ -194,6 +169,10 @@ export default {
           this.data.list.splice(index, 1);
           this.dataChange();
           this.changeCardShow = false;
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
         });
     },
     addNewItem() {
@@ -205,9 +184,12 @@ export default {
             title: this.addInput,
           })
           .then((res) => {
-            this.data.list.push(res.data.data);
+            this.data.list.unshift(res.data.data);
             this.dataChange();
-            console.log(res.data.data);
+            this.$message({
+              type: "success",
+              message: "添加成功!",
+            });
           });
         this.addInput = "";
       }
@@ -250,10 +232,40 @@ export default {
                 pid: newVal,
               },
             })
-            .then((res) => {
-              this.data.list = res.data.data;
-              this.dataChange();
-            });
+            .then(
+              (res) => {
+                this.data.list = res.data.data;
+                this.dataChange();
+              },
+              () => {
+                this.data.list = [
+                  {
+                    pid: "",
+                    cid: "",
+                    title: "第一个任务",
+                    ctime: 1,
+                    status: 1,
+                    favorite: 1,
+                  },
+                  {
+                    pid: "",
+                    cid: "",
+                    title: "第二个任务",
+                    ctime: 1,
+                    status: 0,
+                    favorite: 1,
+                  },
+                  {
+                    pid: "",
+                    cid: "",
+                    title: "第三个任务",
+                    ctime: 1,
+                    status: 0,
+                    favorite: 0,
+                  },
+                ];
+              }
+            );
         }
       },
       immediate: true,

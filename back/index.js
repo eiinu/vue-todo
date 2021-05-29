@@ -22,7 +22,7 @@ const connection = mysql.createConnection({
 connection.connect();
 // 查询
 app.get('/api/getproject', (req, res, next) => {
-    const sql = `select * from ptable where uid = '${req.query.uid}'`
+    const sql = `select * from ptable where uid = '${req.query.uid}' order by ctime desc`
     connection.query(sql, (err, results) => {
         if (err) {
             return res.json({
@@ -41,19 +41,19 @@ app.get('/api/getproject', (req, res, next) => {
 app.get('/api/getitem', (req, res, next) => {
     let sql;
     if (req.query.pid == 'all') {
-        sql = `select * from ${req.query.uid}`
+        sql = `select * from ${req.query.uid} order by ctime desc`
     }
     else if (req.query.pid == 'today') {
         const t = new Date(Date.now);
         let m1 = new Date(new Date().setHours(0, 0, 0, 0)).getTime();
         let m2 = m1 + 86400000;
-        sql = `select * from ${req.query.uid} where ctime >= ${m1} and ctime <= ${m2}`;
+        sql = `select * from ${req.query.uid} where ctime >= ${m1} and ctime <= ${m2} order by ctime desc`;
     }
     else if (req.query.pid == 'favorite') {
-        sql = `select * from ${req.query.uid} where favorite = 1`
+        sql = `select * from ${req.query.uid} where favorite = 1 order by ctime desc`
     }
     else {
-        sql = `select * from ${req.query.uid} where pid = '${req.query.pid}'`
+        sql = `select * from ${req.query.uid} where pid = '${req.query.pid}' order by ctime desc`
     }
     connection.query(sql, (err, results) => {
         if (err) {
@@ -185,19 +185,70 @@ app.post('/api/deleteitem', (req, res, next) => {
 })
 
 // habit
-app.get('/api/habit/getall', (req, res, next) => {
-    const sql = `select * from htable`;
+app.post('/api/habit/deletecard', (req, res, next) => {
+    const hid = req.body.hid;
+    const sql = `delete from habit where hid = '${hid}';delete from htable where hid = '${hid}';`;
+    connection.query(sql, (err, results) => {
+        if (err) {
+            return res.json({
+                code: 1,
+                message: 'error'
+            })
+        }
+        res.json({
+            code: 200,
+            data: 'success'
+        })
+    })
+})
+app.post('/api/habit/changestatus', (req, res, next) => {
+    const hid = req.body.hid;
+    const time = new Date(Date.now());
+    const year = time.getFullYear();
+    const month = time.getMonth() + 1;
+    const day = time.getDate();
+    const today = req.body.today;
+    let sql;
+    if (today === false) {
+        sql = `delete from habit where hid = '${hid}' and year = ${year} and month = ${month} and day = ${day};`;
+    }
+    else {
+        sql = `insert into habit values('${hid}',${year},${month},${day},${Date.now()});`;
+    }
     connection.query(sql, (err, results) => {
         if (err) {
             return res.json({
                 code: 1,
                 message: 'error',
-                affextedRows: 0
             })
         }
         res.json({
             code: 200,
-            data: results
+            data: 'success'
+        })
+    })
+})
+app.get('/api/habit/getall', (req, res, next) => {
+    const sql1 = `select * from htable order by ctime desc;`;
+    let r1 = [];
+    const time = new Date(Date.now());
+    const year = time.getFullYear();
+    const month = time.getMonth() + 1;
+    const day = time.getDate();
+    const sql2 = `select hid from habit where year = ${year} and month = ${month} and day = ${day};`;
+    let r2 = [];
+    connection.query(sql1 + sql2, (err, results) => {
+        if (err) {
+            return res.json({
+                code: 1,
+                message: 'error',
+            })
+        }
+        r1 = results[0];
+        r2 = results[1];
+        res.json({
+            code: 200,
+            data: [r1, r2]
         })
     })
 })
@@ -217,7 +268,13 @@ app.post('/api/habit/createhabit', (req, res, next) => {
         }
         res.json({
             code: 200,
-            data: 'create habit success'
+            data: {
+                hid: hid,
+                title: title,
+                status: 1,
+                ctime: ctime,
+                icon: icon,
+            }
         })
     })
 })
