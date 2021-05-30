@@ -14,6 +14,14 @@ export default {
   components: {
     Navigation,
   },
+  setup() {
+    const html = document.getElementById("html");
+    html.attributes["data-theme"].nodeValue = localStorage.theme;
+    document.documentElement.style.setProperty(
+      "--theme-color",
+      localStorage.themeColor
+    );
+  },
 };
 </script>
 
@@ -97,7 +105,7 @@ a:active {
     .nav-nav {
       width: 100%;
       .active-tab .nav-border {
-        border-top: 2px solid #ef8833;
+        border-top: 2px solid var(--theme-color);
       }
     }
   }

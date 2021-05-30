@@ -12,3 +12,5 @@ app.config.globalProperties.$echarts = echarts
 import axios from 'axios'
 axios.defaults.baseURL = 'http://localhost:3001/'
 app.config.globalProperties.$axios = axios
+localStorage.themeColor = localStorage.themeColor ? localStorage.themeColor : '#ef8833'
+localStorage.theme = localStorage.theme ? localStorage.theme : 'light'

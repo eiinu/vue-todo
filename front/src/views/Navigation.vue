@@ -38,21 +38,25 @@
 <script>
 export default {
   data() {
+    const icon =
+      localStorage.theme === "dark" ? "el-icon-moon" : "el-icon-sunny";
     return {
       navChoosen: "home",
-      dataThemeClass: ["data-theme", "el-icon-sunny"],
+      dataThemeClass: ["data-theme", icon],
     };
   },
   methods: {
     changeTheme: function () {
       // 全局切换夜间模式
-      let html = document.getElementById("html");
-      if (html.attributes["data-theme"].nodeValue == "dark") {
-        html.attributes["data-theme"].nodeValue = "light";
-        this.dataThemeClass[1] = "el-icon-sunny";
-      } else {
+      const html = document.getElementById("html");
+      if (localStorage.theme === "light") {
+        localStorage.theme = "dark";
         html.attributes["data-theme"].nodeValue = "dark";
         this.dataThemeClass[1] = "el-icon-moon";
+      } else {
+        localStorage.theme = "light";
+        html.attributes["data-theme"].nodeValue = "light";
+        this.dataThemeClass[1] = "el-icon-sunny";
       }
     },
   },
