@@ -31,34 +31,20 @@
         </div>
       </router-link>
     </div>
-    <i title="切换主题" @click="changeTheme" :class="dataThemeClass"></i>
+    <i title="切换主题" id="theme-icon" :class="icon"></i>
   </div>
 </template>
 
 <script>
 export default {
   data() {
-    const icon =
-      localStorage.theme === "dark" ? "el-icon-moon" : "el-icon-sunny";
     return {
       navChoosen: "home",
-      dataThemeClass: ["data-theme", icon],
+      icon:
+        localStorage.theme === "dark"
+          ? "data-theme el-icon-moon"
+          : "data-theme el-icon-sunny",
     };
-  },
-  methods: {
-    changeTheme: function () {
-      // 全局切换夜间模式
-      const html = document.getElementById("html");
-      if (localStorage.theme === "light") {
-        localStorage.theme = "dark";
-        html.attributes["data-theme"].nodeValue = "dark";
-        this.dataThemeClass[1] = "el-icon-moon";
-      } else {
-        localStorage.theme = "light";
-        html.attributes["data-theme"].nodeValue = "light";
-        this.dataThemeClass[1] = "el-icon-sunny";
-      }
-    },
   },
 };
 </script>
@@ -79,9 +65,6 @@ export default {
     margin-right: 20px;
     font-size: 30px;
     color: var(--icon-color);
-    &:hover {
-      cursor: pointer;
-    }
   }
   .nav-nav {
     display: flex;

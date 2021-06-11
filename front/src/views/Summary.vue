@@ -38,7 +38,7 @@ export default {
         series: [
           {
             type: "bar",
-            data: [5, 1, 0, 0, 0, 2, 3],
+            data: [5, 1, 2, 0, 2, 3, 1],
             color: getComputedStyle(document.documentElement).getPropertyValue(
               "--theme-color"
             ),
@@ -51,7 +51,7 @@ export default {
       let myChart = this.$echarts.init(document.getElementById("echart2"));
       let option = {
         title: {
-          text: "最近一周打卡完成度",
+          text: "最近一周打卡数",
         },
         angleAxis: {
           type: "category",
